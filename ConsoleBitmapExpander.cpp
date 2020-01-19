@@ -299,7 +299,7 @@ int grabfourhexdoubleit() {
         
         ofstream myfile;
         myfile.open("C:/Users/joshe/file7", ios::binary);  
-        //myfile<<"4D";
+        //myfile<<"4D"; 
         
         for (int i = 0; i < 8; i++)
         {
