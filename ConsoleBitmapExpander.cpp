@@ -303,7 +303,7 @@ int grabfourhexdoubleit() {
         
         for (int i = 0; i < 8; i++)
         {
-            r = cal(hexbuffer[i]) * 16 + cal(hexbuffer[i+1]);
+            r = cal(hexbuffer[i]) * 16 + cal(hexbuffer[i+1]); 
             myfile << r;
             i++;
             //r = cal(s[2]) * 16 + cal(s[3]);
