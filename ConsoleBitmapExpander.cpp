@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<conio.h>
 #include <fstream>
+#include<sstream>
+#include<iomanip>
 //#include <bits/stdc++.h> 
 using namespace std;
 
@@ -13,57 +15,18 @@ char hexaDeciNum[100];
 #include <string>
 #include <cstring>
 using namespace std;
-
-char* decToHexa(int n);
 int hexadecimalToDecimal(char hexVal[]);
 int grabfourhexdoubleit();
 int GetSizeImageData();
 void checkforfourhexdouble();
 int cal(char c);
 
-//must be : (needs second digit)
-//01, 02, 03, 04, 05 , 06, 07 , 08, 09, A B C D E F
-char s[] = "FFFFFFFF\0";
-char r;
-string tester = "FF01";
 int main()
 {
-   
-
-    //file = fopen("C:/Users/joshe/file7", "r");
-   
-   
-    //char buffer7[BUFF] =
-    //{ 0x4D,0x54,0x68,0x64,0x00,0x00,0x00,0x06,0x00,0x01,0x00,0x01,0x00,0x80,0x4D,0x54,0x72,0x6B,0x00,0x00,0x00,0x16,0x80,0x00,0x90,0x3C,0x60,0x81,0x00,0x3E,0x60,0x81,0x00,0x40,0x60,0x81,0x00,0xB0,0x7B,0x00,0x00,0xFF,0x2F,0x00 };
-
-
-    //char s[] = "FE";
-    //char r;
-    //FILE * file;
-    //freopen("C:/Users/joshe/file7", "wb+", file);// every thing you output to stdout will be outout to x.dat.
-    //r = cal(s[0]) * 16 + cal(s[1]);
-    ////print2(r);the binary code of r is　"1111 1110"
-    //cout << r;//Then you can open the x.dat with any hex editor, you can see it is "0xFE" in binary
-    ////freopen("CON", "w", stdout); // back to normal
-    ////cout << 1;// you can see '1' in the stdout.
-    ////return(1);
-    //fclose(stdout);
-
-    //return(1);
     grabfourhexdoubleit();
     GetSizeImageData();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
 
 void grabfourhexsaveit()
 {
@@ -72,49 +35,43 @@ void grabfourhexsaveit()
 
 int grabfourhexdoubleit() {
    
-
-    
     FILE* file;
-   
     int index = 0;
     int count = 0;
-    char mystring[100];
+    int counter = 0;
+    char mystring[12];
     mystring[2] = '\0';
     std::string hex1;
-    //std::string hex2;
-    std::string newhex;
-    std::string hexbuffer;
-    char* hexbuffer2;
-    char bufferb[100];
-    char buffer_1[100];
-    //hexbuffer[4] = '\0';
-    
-    int counter = 0;
-    char buffer[50] = "";
-    //char hexbuffer[50] = "";
+    std::string hex2;
+    //holds final hex that needs to be reversed
+    std::string result;
+    //holds characters for reading in the hex file
+    char buffer[3] = "";
+    buffer[2] = '\0';
     char* pbuf = buffer;
-
-    //std::ofstream myfile;
-    //myfile.open("C:/Users/joshe/file7", std::ios::binary);
-    file = fopen("b.bmp", "r");
-    fseek(file, 18, SEEK_SET);
-    //if (fgetc(mystring, 100, file) != NULL)
     
+    file = fopen("file7z.bmp", "r");
+    fseek(file, 0, SEEK_SET);
+
+    //results in hex with spaces saved to mystring, ie : 2 0 0 D0
     do {
-        //hex with spaces saved to mystring : 2 0 0 D0
+       
         int var3 = fgetc(file);
         if (feof(file)) {
             break;
         }
-        //to make a generic function
-        if (counter == 4)
+        counter++;
+       
+        if (counter == 5)
         {
             break;
         }
-        counter++;
-        //char pbuf;
-        //saves all as hex to mystring from pbuf->buffer
+        
+        
         sprintf(pbuf, "%X", var3);
+
+        
+
         if (counter == 1)
         {
             strcpy(mystring, pbuf);
@@ -123,255 +80,255 @@ int grabfourhexdoubleit() {
         {
             strcat(mystring, pbuf);
         }
+
         
-        strcat(mystring, " ");
+            strcat(mystring, " ");
+        
     } while (1);
-    
-    //removes all zeros so that I can double its decimal
-    for (int i = 0; i < 100; i++)
+
+   
+    //adds null terminator
+    int len = strlen(mystring) - 1;
+    if (mystring[len] == ' ')
     {
-        //seperate zero
-        if (mystring[i] == '0' && mystring[i+1] == ' ')
+        mystring[len] = '\0';
+        len--;
+    }
+    else
+    {
+        mystring[len + 1] = '\0';
+    }
+    // creates hex one an hex two strings - reverses mystring
+    // hex one has no spaces, hex 2 has spaces
+    int flag = 0;
+    for (int i = len; i > -10; i--)
+    {
+        int counter = 0;
+
+        //right hand side zero
+        
+        if (mystring[i] == '0' && flag == 0)
         {
-            
-                //hex2 = hex2 + "  ";
-                //hex1 = hex1 + "0 ";
-                count++;
-                i++;
-            
+            i--;
+            count++;
+
+        }//left hand side zero 
+        else if (mystring[i] == '0')
+        {
+            hex1 = hex1 + '0';
+            hex2 = hex2 + "0 ";
+            i--;
+            count++;
         }
+        //////////////
 
         //one character
-        else if (mystring[i+1] == ' ')
+        else if (mystring[i - 1] == ' ')
         {
-
+            flag = 1;
             hex1 = hex1 + mystring[i];
-            //hex2 = hex1 = hex1 + ' ';
-            i++;
-            count++;
-           
+            hex2 = hex2 + mystring[i] + ' ';
             
+            i--;
+            count++;
+
+
         }
         // double digit
         else
         {
+            flag = 1;
             count++;
-            hex1 = hex1 + mystring[i] + mystring[i + 1] ;
-            i = i + 2;
+            hex1 = hex1 + mystring[i] + mystring[i - 1];
+            hex2 = hex2 + mystring[i] + mystring[i - 1] + " ";
+            i = i - 2;
         }
-            
-
-
-            
-            if (count == 4)
-            {
-                break;
-            }
-            
+       
+        if (count == 4)
+        {
+            break;
         }
+
+    }
     
-         
-        fclose(file);
-        char* cstr = new char[hex1.length() + 1];
-        std::strcpy(cstr, hex1.c_str());
+        //josh: check these two : does string take care of this elsewhere?
+        int len2 = hex2.length();
+        len2 = len2 - 1;
+        hex2.resize(len2 - 1);
+        hex2 = hex2 + '\0';
 
-        //finds decimal input doesn't have zeros 
+        len2 = hex1.length();
+        //len2 = len2 - 2;
+        hex1.resize(len2 - 1);
+        hex1 = hex1 + '\0';
+
+        fclose(file);
+        
+        char* cstr = new char[hex2.length() + 1];
+        std::strcpy(cstr, hex2.c_str());
         int decimal = hexadecimalToDecimal(cstr);
-        //new decimal value now get the hex
+        //new decimal value afer get the hex
         decimal = decimal * 2;
         
-        int amountofcharacters;
-        char* pnewhex; 
-        //sets hexaDeciNum without trailing zeros
-        decToHexa(decimal);
+        std::stringstream sstream;
+        //gets stream with complete zeros and one digits and puts in result.
+        sstream << std::setfill('0') << std::setw(sizeof(int) * 2)
+            << std::hex << decimal;
+        result = sstream.str();
         
-        count = 4;
-
-
-        //// 
-        //adds trailing zeros to hex so that next function
-        //can make buffer of 0x values for bitmap stream
-        for (int i = 0; i <= 10; i++)
+        //reverses pairs of hex - (endian)
+        char final[9];
+        for (int i = 0, j = 7; i < 7; i++, j--)
         {
-           
-            if (count == 0)
-            {
-                break;
-            }
-
-            //next element
-            if (hexaDeciNum[i] == ' ')
-            {   
-                count--;
-                
-            }
-            //set memset
-            else if (hexaDeciNum[i] == '\0' && hexaDeciNum[i + 1 == '\0'])
-            {
-                for (int i = 0; i < count-1; i++)
-                {
-                    newhex = newhex + "0 ";
-                }
-                //count++;
-                //i++;
-                break;
-            }
-            else
-            {
-                newhex = newhex + hexaDeciNum[i] + " ";
-               
-            }
-            
-
+            final[i] = result[j-1];
+            final[i+1] = result[j];
+            i++;
+            j--;
         }
-        //put this pointer into an indexed array for usage
-       // int len = newhex.length();
-       // for (int i = 0; i < (len - 1); i++)
-       // {
-       //     hexaDeciNum[i] = *(&newhex[i]);
-       // }
+        final[8] = '\0';
 
-        ////
+        //////////////////
+        ///exception being called in here, this is for trying to create
+        ///this function in c - global funnctions declerations removed
+        /////////////////
+        //count = 4;
+       
+        //////////////////////////////////
+        ////reverse each element first.
+        ////////////////////////////////
+        //int count2 = 0;
+        //
+        //char hexaDeciNum1[100];
+        //int i = 0;
+        ////consider
+        //for ( i = 0; i < hex2.length()-1 ; i++)
+        //{
+        //    hexaDeciNum[i] = *(&hex2[i]);
+        //}
+        //hexaDeciNum[i] = '\0';
+        //hexaDeciNum1[i] = '\0';
+        //for (int i = 0, k = len2-1 ; k>=0 ; )
 
-        ////////////////////////////////////////
-        //fill hex buffer with hex myfile<< stream values for streaming to bitmap file like : FF0A0FF
-        ////////////////////////////////////////
-        index = 0;
-        count = 0;
-        for (int i = 0; i <= 100; i++)
-        {
-            if (count == 4)
-            {
-                break;
-            }
-            //write to bitmap file (has zeros 0x ...)
-            if (newhex[i] == '0' && newhex[i + 1] == ' ')
-            {
-               
-                //std::string value1 = "0x";
-                hexbuffer = hexbuffer + "00";
-                index++;
-                i++;
-                count++;
-               
-            }
+        //{
+        //    //single element 0 - F
+        //    if (hexaDeciNum[i] == ' ')
+        //    {
+        //        hexaDeciNum1[k-1] = hexaDeciNum[i + 1];
+        //        hexaDeciNum1[k] = ' ';
+        //        
+        //        k = k - 2;
+        //        i = i + 2;
+        //    }
+        //    //double digit
+        //    else
+        //    {
+        //        hexaDeciNum1[k-1] = hexaDeciNum[i];
+        //        hexaDeciNum1[k] = hexaDeciNum[i+1];
+        //        hexaDeciNum1[k - 2] = ' ';
+        //        k = k - 2;
+        //        i = i + 2;
+        //    }
+        //    
+        //}
+        /////how many zeros needed
+        /////////////////////////
+        //int lastpos = 0;
+        //int mycount = 0;
+        //for (int i = 0; i < 100; i++)
+        //{
+        //    if (hexaDeciNum1[i] == '\0')
+        //    {
+        //        lastpos = i;
+        //        break;
+        //    }
+        //    else if(hexaDeciNum[i] == ' ')
+        //    {
+        //        mycount++;
+        //    }
+        //}
+        //int numzerosneeded = 3 - mycount;
 
-            //////
-            //singal digit
-            else if (newhex[i + 1] == ' ')
-            {
+        //////////////////////////////
+        //// add zeros
+        ////////////////////////////
+        //for (int i = 0; i < numzerosneeded; i++)
+        //{
+        //    hexaDeciNum1[lastpos] = '0';
+        //    lastpos++;
+        //}
+        //hexaDeciNum1[lastpos] = '\0';
 
+        //char hexaDeciNum2[9] = { 0,0,0,0,0,0,0,0 };
+        //hexaDeciNum2[8] = '\0';
+        //
+        ////remove spaces
+        //for (int i = 0, j = 0; i < 100; )
+        //{
+        //    if (hexaDeciNum1[i] == ' ')
+        //    {
+        //        i++;
+        //      
+        //    }
+        //    else if (hexaDeciNum1[i] == '\0')
+        //    {
+        //        break;
+        //    }
+        //    else
+        //    {   
+        //        hexaDeciNum2[j] = hexaDeciNum1[i];
+        //        j++;
+        //        i++;
+        //    }
+        //}
+        //
+        //char hexaDeciNum3[9] = { 0,0,0,0,0,0,0,0 };
+        //hexaDeciNum3[8] = '\0';
+        //
+        ////double the zeros
+        //int count3 = 0;
+        //
+        //for (int i = 0, j = 0; i < 100;)
+        //{
+        //    hexaDeciNum3[i] = hexaDeciNum2[j];
+        //    if (hexaDeciNum3[i] == '0')
+        //    {
+        //        hexaDeciNum3[i + 1] = '0';
+        //        i = i + 1;
+        //    }
+        //    
+        //    else if (hexaDeciNum2[i] == '\0')
+        //    {
+        //        break;
+        //    }
+        //    j++;
+        //    i++;
+        //}
 
-                hexbuffer = hexbuffer + "0" + newhex[i];
-                
-                index++;
-                i++;
-                count++;
-                
-
-            }
-            //double digit
-            else
-            {
-                /////////
-                hexbuffer = hexbuffer + newhex[i] + newhex[i+1];
-                
-                index++;
-                i = i + 2;
-                count++;
-            }
-        
-            
-        }
-        
-
-        //string hexbuffer
-        char str[20 + 1];
-        ////char 
-        //strcpy(s, tester.c_str());
-        int leng = strlen(s);
-        str[leng] = '\0';
-        //cout << hex<< str << '\n';
-
-        
-        char* cstr1 = new char[hexbuffer.length() + 1];
-        std::strcpy(cstr1, hexbuffer.c_str());
-        
+        //value = 1;
+        //char* cstr1 = new char[result.length() + 1];
+        //std::strcpy(cstr1, result.c_str());
+        //char holder[9] = "";
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    holder[i] = cstr1[i];
+        //}
+        char r;
+        //writes to file
         ofstream myfile;
-        myfile.open("C:/Users/joshe/file7", ios::binary);  
-        //myfile<<"4D"; 
-        
+        myfile.open("C:/Users/joshe/file7a.bmp", ios::binary);  
         for (int i = 0; i < 8; i++)
         {
-            r = cal(hexbuffer[i]) * 16 + cal(hexbuffer[i+1]);
+            //calculates 
+            r = cal(final[i]) * 16 + cal(final[i+1]);
             myfile << r;
             i++;
-            //r = cal(s[2]) * 16 + cal(s[3]);
-            //myfile << r;
-        }
+         }
         
         myfile.close();
         return(1);
-
-      
-
-     }
-        
+ }
 
 /////////////////////////////
-/////////////////////////////
-
-// function to convert decimal to hexadecimal 
-char* decToHexa(int n)
-{
-    // char array to store hexadecimal number 
-    //char hexaDeciNum[100];
-    //char* hexaDeciNum = new char[100];
-
-    // counter for hexadecimal number array 
-    int i = 0;
-    while (n != 0)
-    {
-        // temporary variable to store remainder 
-        int temp = 0;
-
-        // storing remainder in temp variable. 
-        temp = n % 16;
-
-        // check if temp < 10 
-        if (temp < 10)
-        {
-            hexaDeciNum[i] = temp + 48;
-            i++;
-        }
-        else
-        {
-            hexaDeciNum[i] = temp + 55;
-            i++;
-        }
-
-        n = n / 16;
-    }
-
-
-    globallength = i;
-    char* stringA;
-
-    // printing hexadecimal number array in reverse order 
-    int k = 0;
-    for (int j = i - 1; j >= 0; j--, k++)
-    {
-        hexaDeciNum[k] = hexaDeciNum[j];
-    }
-
-    ///
-    //hexaDeciNum[k] = ' ';
-   
-    hexaDeciNum[k] = '\0';
-    ///
-    return (hexaDeciNum);
-}
-
 int hexadecimalToDecimal(char hexVal[])
 {
     int len = strlen(hexVal);
@@ -382,7 +339,6 @@ int hexadecimalToDecimal(char hexVal[])
     int dec_val = 0;
 
     // Extracting characters as digits from last character 
-    //for (int i = len - 1 ; i >= 0; i--)
     for (int i = len - 1; i >= 0; i--)
 
     {
@@ -412,19 +368,16 @@ int hexadecimalToDecimal(char hexVal[])
     return dec_val;
 }
 
-
+//utility, displays hex and size. 
 int GetSizeImageData()
 {
     FILE* file;
     int i;
     int counter = 0;
-    //char buf[27];
-    file = fopen("C:/Users/joshe/file7", "r");
-    //for (i = 0; i < 1478; i++)
-    //fseek(file, 0, SEEK_SET);
+    
+    file = fopen("C:/Users/joshe/file7a.bmp", "r");
+    
     do {
-
-
 
         i = fgetc(file);
         if (feof(file)) {
@@ -432,20 +385,18 @@ int GetSizeImageData()
             break;
         }
         counter++;
-        //4 bytes * 54 = 
+       
         printf("%x ", i);
 
     } while (1);
 
     int check = sizeof(unsigned int);
     printf("size is: %d", counter);
-    //fclose(file);
-    int ans = remove("C:/Users/joshe/file7");
     return(counter);
 }
 
 
-int cal(char c)// cal the coresponding value in hex of ascii char c
+int cal(char c)
 {
     int h = 0;
     if (c <= '9' && c >= '0') return c - '0';
