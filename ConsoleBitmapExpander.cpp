@@ -41,7 +41,7 @@ int grabfourhexdoubleit() {
     int counter = 0;
     char mystring[12];
     mystring[2] = '\0';
-    std::string hex1;
+    std::string hex1; 
     std::string hex2;
     //holds final hex that needs to be reversed
     std::string result;
