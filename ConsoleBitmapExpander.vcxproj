@@ -148,12 +148,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleBitmapExpander.cpp" />
-    <ClCompile Include="DoubleValueAndSave.cpp" />
+    <ClCompile Include="DoubleString.cpp" />
     <ClCompile Include="utilities.cpp" />
+    <ClCompile Include="WriteSizeofBitmap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DoubleValueAndSave.h" />
+    <ClInclude Include="DoubleString.h" />
     <ClInclude Include="utilities.h" />
+    <ClInclude Include="WriteSizeofBitmap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

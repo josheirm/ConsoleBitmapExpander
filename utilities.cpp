@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #include <iostream>
 #include "utilities.h"
-#include "DoubleValueAndSave.h"
+#include "DoubleString.h"
 #include <fstream>
 #include <string>
 
@@ -65,14 +65,15 @@ int utilities::cal(char c)
     return(1);
 }
 
-int utilities::GetSizeImageData()
+int utilities::Printdata(char pathandname[])
 {
     {
         FILE* file;
         int i;
         int counter = 0;
 
-        file = fopen("C:/Users/joshe/file7a.bmp", "r");
+        //file = fopen("C:/Users/joshe/file7a.bmp", "r");
+        file = fopen(pathandname, "r");
 
         do {
 
@@ -93,27 +94,27 @@ int utilities::GetSizeImageData()
     }
 
 }
-
-void utilities::reversestring(void)
+//reverses count amount of string that is mystring, result is hex1 and hex2
+void utilities::reversestring(int count1, char mystring1[])
 {
 
     // creates hex one an hex two strings - reverses mystring
     // hex one has no spaces, hex 2 has spaces
     int flag = 0;
-    for (int i = len; i > -10; i--)
+    for (int i = len; i > -100; i--)
     {
         //added
         int count = 0;
-        int counter = 0;
+        //int counter = 0;
 
         //right hand side zero
-        if (mystring[i] == '0' && flag == 0)
+        if (mystring1[i] == '0' && flag == 0)
         {
             i--;
             count++;
 
         }//left hand side zero 
-        else if (mystring[i] == '0')
+        else if (mystring1[i] == '0')
         {
             hex1 = hex1 + '0';
             hex2 = hex2 + "0 ";
@@ -122,11 +123,11 @@ void utilities::reversestring(void)
         }
        
         //one character
-        else if (mystring[i - 1] == ' ')
+        else if (mystring1[i - 1] == ' ')
         {
             flag = 1;
-            hex1 = hex1 + mystring[i];
-            hex2 = hex2 + mystring[i] + ' ';
+            hex1 = hex1 + mystring1[i];
+            hex2 = hex2 + mystring1[i] + ' ';
             i--;
             count++;
         }
@@ -135,12 +136,12 @@ void utilities::reversestring(void)
         {
             flag = 1;
             count++;
-            hex1 = hex1 + mystring[i] + mystring[i - 1];
-            hex2 = hex2 + mystring[i] + mystring[i - 1] + " ";
+            hex1 = hex1 + mystring1[i] + mystring1[i - 1];
+            hex2 = hex2 + mystring1[i] + mystring1[i - 1] + " ";
             i = i - 2;
         }
 
-        if (count == 4)
+        if (count == count1)
         {
             break;
         }
@@ -160,14 +161,16 @@ void utilities::reversestring(void)
 
 /////
 
-    /////
-    void utilities::readinfile(void)
+    /////saves to mystring, counter1 is amount of characters to read in 
+    void utilities::readinfile(int counter1, char  filename[]  )
     {
+        int counter = 0;
         FILE * file;
-        file = fopen("file7z.bmp", "r");
+        //file = fopen("file7z.bmp", "r");
+        file = fopen(filename, "r");
         do {
-            //added
-            int counter = 0;
+            
+            
             int var3 = fgetc(file);
             if (feof(file)) {
                 fclose(file);
@@ -175,7 +178,7 @@ void utilities::reversestring(void)
             }
             counter++;
 
-            if (counter == 5)
+            if (counter == counter1+1)
             {
                 break;
             }

@@ -4,25 +4,25 @@
 #include<iomanip>
 #include<string>
 
-#include "DoubleValueAndSave.h"
+#include "WriteSizeofBitmap.h"
 
 using namespace std;
 
 
-//using namespace std;
-//counter
-//class utilities;
-DoubleValueAndSave::DoubleValueAndSave()
-{	
-    
-   
-}
-//this function excpect a string with spaces and the util class.  Will explain
-//later (in more detail.)
-void DoubleValueAndSave::readystringandsave(std::string hex2, utilities * utili)
+
+WriteSizeofBitmap::WriteSizeofBitmap()
 {
+
+}
+//at this point hex2 is four elements i.e.:    FF 3 0 1
+void WriteSizeofBitmap::getstringandsave(char filepath[], std::string hex2, utilities* utili)
+{
+    /////////////
+    //THIS IS ALL THE OTHER DOUBLESTRINGCODE TO ADJUST FOR THIS FUNCTION
+    ////////////
+
     std::string result;
-     char* cstr = new char[hex2.length() + 1];
+    char* cstr = new char[hex2.length() + 1];
     std::strcpy(cstr, hex2.c_str());
     int decimal = utili->hexadecimalToDecimal(cstr);
     //new decimal value afer get the hex
@@ -43,12 +43,15 @@ void DoubleValueAndSave::readystringandsave(std::string hex2, utilities * utili)
         i++;
         j--;
     }
+
+
     final[8] = '\0';
 
     char r;
     //writes to file
     std::ofstream myfile;
-    myfile.open("C:/Users/joshe/file7a.bmp", std::ios::binary);
+    //myfile.open("C:/Users/joshe/file7a.bmp", std::ios::binary);
+    myfile.open(filepath, std::ios::binary);
     for (int i = 0; i < 8; i++)
     {
         //calculates 
@@ -60,5 +63,5 @@ void DoubleValueAndSave::readystringandsave(std::string hex2, utilities * utili)
     myfile.close();
     //return(1);
 }
-    
+
 

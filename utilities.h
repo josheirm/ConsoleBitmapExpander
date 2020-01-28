@@ -15,11 +15,11 @@ class utilities
 	int len;
 
 	utilities(void);
-	void readinfile(void);
+	void readinfile(int, char file[] );
 	int hexadecimalToDecimal(char hexVal[]);
 	int cal(char c);
-	int GetSizeImageData();
-	void reversestring(void);
+	int Printdata(char []);
+	void reversestring(int , char[]);
 };
 
 #endif

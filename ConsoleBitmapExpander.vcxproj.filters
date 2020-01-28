@@ -18,18 +18,24 @@
     <ClCompile Include="ConsoleBitmapExpander.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DoubleValueAndSave.cpp">
+    <ClCompile Include="utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utilities.cpp">
+    <ClCompile Include="DoubleString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteSizeofBitmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DoubleValueAndSave.h">
+    <ClInclude Include="utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utilities.h">
+    <ClInclude Include="DoubleString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteSizeofBitmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
