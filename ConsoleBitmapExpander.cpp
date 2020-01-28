@@ -6,7 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include<iomanip>
-
+ 
 void writestringtofile(int indexstart, int indexend); 
 void main()
 {
