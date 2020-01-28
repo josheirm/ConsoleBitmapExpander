@@ -1,282 +1,80 @@
-﻿#define _CRT_SECURE_NO_DEPRECATE
-#include<iostream> 
-#include<string.h> 
-#include<stdio.h>
-#include<stdlib.h>
-#include<conio.h>
-#include <fstream>
-#include<sstream>
-#include<iomanip>
-//#include <bits/stdc++.h> 
-using namespace std;
-
-int globallength = 0;
-char hexaDeciNum[100];
+﻿#include"utilities.h"
+#include"DoubleString.h"
+#include"WriteSizeofBitmap.h"
+#include"WriteSizeofBitmapData.h"
 #include <string>
-#include <cstring>
-using namespace std;
-int hexadecimalToDecimal(char hexVal[]);
-int grabfourhexdoubleit();
-int GetSizeImageData();
-void checkforfourhexdouble();
-int cal(char c);
+#include <sstream>
+#include <fstream>
+#include<iomanip>
 
-int main()
+void writestringtofile(int indexstart, int indexend);
+void main()
 {
-    grabfourhexdoubleit();
-    GetSizeImageData();
+	//writestringtofile(0, 3);
+	char filen2[] = { "C:/Users/joshe/file7a.bmp" };
+	WriteSizeofBitmapData bmpdatasize;
+	WriteSizeofBitmap size;
+	DoubleString finalobject;
+	utilities * utili = new  utilities;
+	char filen[] = {"file7z.bmp"};
+	//read, write
+	bmpdatasize.getstringandsave(filen, filen2, utili);
+
+	//read, write
+	//size.getstringandsave(filen,filen2, utili);
+	//saves to mystring
+	//utili->readinfile(4, filen);
+	//saves to hex2
+	//utili->reversestring(4, utili->mystring);
+	
+	
+	////saves to file
+	//char filen2[] = {"C:/Users/joshe/file7a.bmp"};
+	////also reverses pairs
+	//finalobject.doublestringandsave(filen2, utili->hex2, utili);
+	////"C:/Users/joshe/file7a.bmp"
+	//utili->Printdata(filen2);
+
 }
 
-
-void grabfourhexsaveit()
+void writestringtofile(int indexstart, int indexend)
 {
+	char data1[2];
+	std::string result;
+	char data[100] = { '4', '2' , '4', 'D', 'F' };
+	char* pdata = data1;
+	utilities util;
+
+	std::stringstream sstream;
+	std::ofstream myfile;
+	char final[3];
+	char r;
+
+	myfile.open("test1000", std::ios::binary);
+
+	for (int i = indexstart; i <= indexend; i++)
+	{
+		data1[0] = data[i];
+		data1[1] = data[i + 1];
+
+
+		int decimal = util.hexadecimalToDecimal(pdata);
+
+		sstream << std::setfill('0') << std::setw(2) << std::hex << decimal;
+		result = sstream.str();
+
+		final[0] = result[i];
+		final[1] = result[i + 1];
+		final[2] = '\0';
+		r = util.cal(final[0]) * 16 + util.cal(final[1]);
+		//i++;
+		myfile << r;
+		i++;
+
+
+
+	}
+
+	myfile.close();
 
 }
-
-int grabfourhexdoubleit() {
-   
-    FILE* file;
-    int index = 0;
-    int count = 0;
-    int counter = 0;
-    char mystring[12];
-    mystring[2] = '\0';
-    std::string hex1;
-    std::string hex2;
-    //holds final hex that needs to be reversed
-    std::string result;
-    //holds characters for reading in the hex file
-    char buffer[3] = "";
-    buffer[2] = '\0';
-    char* pbuf = buffer;
-    
-    file = fopen("file7z.bmp", "r");
-    fseek(file, 0, SEEK_SET);
-
-    //results in hex with spaces saved to mystring, ie : 2 0 0 D0
-    do {
-       
-        int var3 = fgetc(file);
-        if (feof(file)) {
-            break;
-        }
-        counter++;
-       
-        if (counter == 5)
-        {
-            break;
-        }
-        
-        
-        sprintf(pbuf, "%X", var3);
-
-        
-
-        if (counter == 1)
-        {
-            strcpy(mystring, pbuf);
-        }
-        else
-        {
-            strcat(mystring, pbuf);
-        }
-
-        
-            strcat(mystring, " ");
-        
-    } while (1);
-
-   
-    //adds null terminator
-    int len = strlen(mystring) - 1;
-    if (mystring[len] == ' ')
-    {
-        mystring[len] = '\0';
-        len--;
-    }
-    else
-    {
-        mystring[len + 1] = '\0';
-    }
-    // creates hex one an hex two strings - reverses mystring
-    // hex one has no spaces, hex 2 has spaces
-    int flag = 0;
-    for (int i = len; i > -10; i--)
-    {
-        int counter = 0;
-
-        //right hand side zero
-        
-        if (mystring[i] == '0' && flag == 0)
-        {
-            i--;
-            count++;
-
-        }//left hand side zero 
-        else if (mystring[i] == '0')
-        {
-            hex1 = hex1 + '0';
-            hex2 = hex2 + "0 ";
-            i--;
-            count++;
-        }
-        //////////////
-
-        //one character
-        else if (mystring[i - 1] == ' ')
-        {
-            flag = 1;
-            hex1 = hex1 + mystring[i];
-            hex2 = hex2 + mystring[i] + ' ';
-            
-            i--;
-            count++;
-
-
-        }
-        // double digit
-        else
-        {
-            flag = 1;
-            count++;
-            hex1 = hex1 + mystring[i] + mystring[i - 1];
-            hex2 = hex2 + mystring[i] + mystring[i - 1] + " ";
-            i = i - 2;
-        }
-       
-        if (count == 4)
-        {
-            break;
-        }
-
-    }
-    
-        //josh: check these two : does string take care of this elsewhere?
-        int len2 = hex2.length();
-        len2 = len2 - 1;
-        hex2.resize(len2 - 1);
-        hex2 = hex2 + '\0';
-
-        len2 = hex1.length();
-        //len2 = len2 - 2;
-        hex1.resize(len2 - 1);
-        hex1 = hex1 + '\0';
-
-        fclose(file);
-        
-        char* cstr = new char[hex2.length() + 1];
-        std::strcpy(cstr, hex2.c_str());
-        int decimal = hexadecimalToDecimal(cstr);
-        //new decimal value afer get the hex
-        decimal = decimal * 2;
-        
-        std::stringstream sstream;
-        //gets stream with complete zeros and one digits and puts in result.
-        sstream << std::setfill('0') << std::setw(sizeof(int) * 2)
-            << std::hex << decimal;
-        result = sstream.str();
-        
-        //reverses pairs of hex - (endian)
-        char final[9];
-        for (int i = 0, j = 7; i < 7; i++, j--)
-        {
-            final[i] = result[j-1];
-            final[i+1] = result[j];
-            i++;
-            j--;
-        }
-        final[8] = '\0';
-
-        char r;
-        //writes to file
-        ofstream myfile;
-        myfile.open("C:/Users/joshe/file7a.bmp", ios::binary);  
-        for (int i = 0; i < 8; i++)
-        {
-            //calculates 
-            r = cal(final[i]) * 16 + cal(final[i+1]);
-            myfile << r;
-            i++;
-         }
-        
-        myfile.close();
-        return(1);
- }
-
-/////////////////////////////
-int hexadecimalToDecimal(char hexVal[])
-{
-    int len = strlen(hexVal);
-
-    // Initializing base value to 1, i.e 16^0 
-    int base = 1;
-
-    int dec_val = 0;
-
-    // Extracting characters as digits from last character 
-    for (int i = len - 1; i >= 0; i--)
-
-    {
-        // if character lies in '0'-'9', converting  
-        // it to integral 0-9 by subtracting 48 from 
-        // ASCII value. 
-        if (hexVal[i] >= '0' && hexVal[i] <= '9')
-        {
-            dec_val += (hexVal[i] - 48) * base;
-
-            // incrementing base by power 
-            base = base * 16;
-        }
-
-        // if character lies in 'A'-'F' , converting  
-        // it to integral 10 - 15 by subtracting 55  
-        // from ASCII value 
-        else if (hexVal[i] >= 'A' && hexVal[i] <= 'F')
-        {
-            dec_val += (hexVal[i] - 55) * base;
-
-            // incrementing base by power 
-            base = base * 16;
-        }
-    }
-
-    return dec_val;
-}
-
-//utility, displays hex and size. 
-int GetSizeImageData()
-{
-    FILE* file;
-    int i;
-    int counter = 0;
-    
-    file = fopen("C:/Users/joshe/file7a.bmp", "r");
-    
-    do {
-
-        i = fgetc(file);
-        if (feof(file)) {
-            fclose(file);
-            break;
-        }
-        counter++;
-       
-        printf("%x ", i);
-
-    } while (1);
-
-    int check = sizeof(unsigned int);
-    printf("size is: %d", counter);
-    return(counter);
-}
-
-
-int cal(char c)
-{
-    int h = 0;
-    if (c <= '9' && c >= '0') return c - '0';
-    if (c <= 'f' && c >= 'a') return c - 'a' + 10;
-    if (c <= 'F' && c >= 'A') return c - 'A' + 10;
-    return(1);
-}
-
