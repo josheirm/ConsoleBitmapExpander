@@ -1,32 +1,33 @@
 #include "utilities.h"
+#include "WriteSizeofBitmapData.h"
+
+
 #include <fstream>
 #include <sstream>
 #include<iomanip>
 #include<string>
 
-#include "WriteSizeofBitmap.h"
-
 using namespace std;
 
 
 
-WriteSizeofBitmap::WriteSizeofBitmap()
+WriteSizeofBitmapData::WriteSizeofBitmapData()
 {
+    char* pbuf = buffer;
+
     mystring[11] = '\0';
 }
 //at this point hex2 is four elements i.e.:    FF 3 0 1
-void WriteSizeofBitmap::getstringandsave(char filepath_r[], char filepath_w[], utilities* utili)
+void WriteSizeofBitmapData::getstringandsave(char filepath_r[], char filepath_w[],  utilities* utili)
 {
     /////////////
-    
+
     ////////////
     int element_counter = 0;
     FILE* file;
-    char buffer[9];
-    char* pbuf = buffer;
-    char r;
+   char r;
 
-    
+
     file = fopen(filepath_r, "r");
     do {
 
@@ -38,7 +39,7 @@ void WriteSizeofBitmap::getstringandsave(char filepath_r[], char filepath_w[], u
         }
         element_counter++;
 
-        
+
 
         /*sprintf(pbuf, "%X", var3);
         if (element_counter == 1)
@@ -56,10 +57,10 @@ void WriteSizeofBitmap::getstringandsave(char filepath_r[], char filepath_w[], u
     } while (1);
 
     int sizeorigbitmapdata = element_counter - 54;
-    int newsizebitmap = 54 + (sizeorigbitmapdata * 4);
+    int newsizebitmap = sizeorigbitmapdata * 4;
     int decimal = newsizebitmap;
     std::string result;
-    
+
     std::stringstream sstream;
     //gets stream with complete zeros and one digits and puts in result.
     sstream << std::setfill('0') << std::setw(sizeof(int) * 2)
@@ -77,7 +78,7 @@ void WriteSizeofBitmap::getstringandsave(char filepath_r[], char filepath_w[], u
     }
     final[8] = '\0';
 
-   
+
     //writes to file
     std::ofstream myfile;
     //myfile.open("C:/Users/joshe/file7a.bmp", std::ios::binary);
@@ -92,7 +93,7 @@ void WriteSizeofBitmap::getstringandsave(char filepath_r[], char filepath_w[], u
 
     //////////////////////////
     myfile.close();
-    
+
 }
 
 

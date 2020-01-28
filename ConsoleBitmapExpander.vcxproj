@@ -151,11 +151,13 @@
     <ClCompile Include="DoubleString.cpp" />
     <ClCompile Include="utilities.cpp" />
     <ClCompile Include="WriteSizeofBitmap.cpp" />
+    <ClCompile Include="WriteSizeofBitmapData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoubleString.h" />
     <ClInclude Include="utilities.h" />
     <ClInclude Include="WriteSizeofBitmap.h" />
+    <ClInclude Include="WriteSizeofBitmapData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

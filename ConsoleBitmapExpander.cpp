@@ -1,6 +1,7 @@
 ﻿#include"utilities.h"
 #include"DoubleString.h"
 #include"WriteSizeofBitmap.h"
+#include"WriteSizeofBitmapData.h"
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -10,15 +11,22 @@ void writestringtofile(int indexstart, int indexend);
 void main()
 {
 	//writestringtofile(0, 3);
+	char filen2[] = { "C:/Users/joshe/file7a.bmp" };
+	WriteSizeofBitmapData bmpdatasize;
 	WriteSizeofBitmap size;
 	DoubleString finalobject;
 	utilities * utili = new  utilities;
 	char filen[] = {"file7z.bmp"};
+	//read, write
+	bmpdatasize.getstringandsave(filen, filen2, utili);
+
+	//read, write
+	//size.getstringandsave(filen,filen2, utili);
 	//saves to mystring
-	utili->readinfile(4, filen);
+	//utili->readinfile(4, filen);
 	//saves to hex2
-	utili->reversestring(4, utili->mystring);
-	size.getstringandsave(filen, utili->hex2, utili);
+	//utili->reversestring(4, utili->mystring);
+	
 	
 	////saves to file
 	//char filen2[] = {"C:/Users/joshe/file7a.bmp"};
